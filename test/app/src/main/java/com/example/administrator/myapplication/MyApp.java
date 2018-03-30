@@ -14,7 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MyApp extends Application {
     private static Retrofit retrofitInstance;
-    private static final String BASEURL = "http://140.143.138.233:8080/WebContent/";
+    //private static final String BASEURL = "http://140.143.138.233:8080/WebContent/";
+    private static final String BASEURL = "http://news.baidu.com/";
 
     @Override
     public void onCreate() {
@@ -29,13 +30,13 @@ public class MyApp extends Application {
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
-                    .addInterceptor(interceptor)
-                    .retryOnConnectionFailure(false);
+                    .retryOnConnectionFailure(false)
+                    .addInterceptor(interceptor);
             OkHttpClient client = builder.build();
             retrofitInstance = new Retrofit.Builder()
+                    .baseUrl(BASEURL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(BASEURL)
                     .build();
         }
         return retrofitInstance;
