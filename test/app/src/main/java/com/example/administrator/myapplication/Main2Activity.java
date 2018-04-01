@@ -22,7 +22,8 @@ import butterknife.OnClick;
  * @author wangmaobo
  * @date 2018/3/30
  */
-public class Main2Activity extends AppCompatActivity implements BaseViewModelInterface,
+public class Main2Activity extends AppCompatActivity
+        implements BaseViewModelInterface,
         MyAdapater.ChildClickListener {
 
     /**
@@ -72,16 +73,18 @@ public class Main2Activity extends AppCompatActivity implements BaseViewModelInt
                 } else {
                     mAdapter.notifyDataSetChanged();
                 }
-
                 break;
             case "Button":
                 btn1.setText("test");
+                break;
+            case "TestView":
+
                 break;
         }
     }
 
     @Override
-    public void click(int position) {
-        Toast.makeText(this, "pos=" + position, Toast.LENGTH_SHORT).show();
+    public void click(int position, Object info) {
+        Toast.makeText(this, "pos=" + position + info.toString(), Toast.LENGTH_SHORT).show();
     }
 }

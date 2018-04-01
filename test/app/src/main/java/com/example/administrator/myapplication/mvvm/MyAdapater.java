@@ -41,15 +41,16 @@ public class MyAdapater extends RecyclerView.Adapter<MyAdapater.ViewHolder> impl
     @Override
     public MyAdapater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if (mList.get(viewType).cell_Type.equals("cell_type1")) {
+        if (viewType == 0) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_text, parent, false);
-        } else if (mList.get(viewType).cell_Type.equals("cell_type2")) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_image, parent, false);
-        }
-        if (mList.get(viewType).is_Select) {
             view.findViewById(R.id.tv).setOnClickListener(this);
+            view.setTag("cell_type1");
+        } else if (viewType == 1) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_image, parent, false);
+            view.findViewById(R.id.iv).setOnClickListener(this);
+            view.setTag("cell_type2");//子控件的点击事件
         }
-        return new ViewHolder(view,mList.get(viewType).cell_Type);
+        return new ViewHolder(view, mList.get(viewType).cell_Type);
     }
 
     @Override
@@ -57,8 +58,18 @@ public class MyAdapater extends RecyclerView.Adapter<MyAdapater.ViewHolder> impl
         Universal_Cell_Class bean = mList.get(position);
         if (bean.cell_Type.equals("cell_type1")) {
             holder.textView.setText(bean.cell_Value.toString());
-        }else if(bean.cell_Type.equals("cell_type2")){
+        } else if (bean.cell_Type.equals("cell_type2")) {
             holder.imageView.setImageResource(R.mipmap.ic_launcher);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Universal_Cell_Class bean = mList.get(position);
+        if (bean.cell_Type.equals("cell_type1")) {
+            return 0;
+        } else {
+            return 1;
         }
     }
 
@@ -69,14 +80,24 @@ public class MyAdapater extends RecyclerView.Adapter<MyAdapater.ViewHolder> impl
 
     @Override
     public void onClick(View v) {
-        int position = mRecycleView.getChildAdapterPosition((View) v.getParent());
-        if (null != mListener) {
-            mListener.click(position);
+        //有风险，切记不要再添加tag
+        int position = 0;
+        while (null == v.getTag()) {
+            v = (View) v.getParent();
+        }
+        //补丁
+        if (v.getTag().equals("cell_type1")
+                || v.getTag().equals("cell_type2")) {
+            position = mRecycleView.getChildAdapterPosition(v);
+        }
+        if (null != mListener && mList.get(position).is_Select) {
+            mListener.click(position, mList.get(position).parameter);
         }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
+
         private ImageView imageView;
 
         public ViewHolder(View itemView, String viewType) {
@@ -90,6 +111,6 @@ public class MyAdapater extends RecyclerView.Adapter<MyAdapater.ViewHolder> impl
     }
 
     public interface ChildClickListener {
-        void click(int position);
+        void click(int position, Object info);
     }
 }
