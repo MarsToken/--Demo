@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.example.administrator.myapplication.mvvm.MyAdapater;
+import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
 import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
@@ -27,8 +28,8 @@ import butterknife.OnClick;
  * @author wangmaobo
  * @date 2018/3/30
  */
-public class Main2Activity extends BaseActivity implements BaseViewModelInterface, IShowView, MyAdapater
-        .ChildClickListener {
+public class Main2Activity extends BaseActivity implements BaseViewModelInterface, IShowView,
+        MyAdapater.ChildClickListener {
 
     /**
      * view
@@ -77,7 +78,7 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
     @Override
     public void SendDircetive(String name, Object params) {
         switch (name) {
-            case "success_recycleView":
+            case ShowConstant.StringType.TAG_SHOW_RECYCLEVIEW:
                 if (null == mAdapter) {
                     rv.setLayoutManager(new LinearLayoutManager(this));
                     mAdapter = new MyAdapater(this, mViewModel.data_Array);
@@ -86,10 +87,10 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
                     mAdapter.notifyDataSetChanged();
                 }
                 break;
-            case "success_button":
+            case ShowConstant.StringType.TAG_SHOW_BUTTON:
                 btn_changedSelf.setText(params.toString());
                 break;
-            case "TestView":
+            default:
 
                 break;
         }
@@ -117,7 +118,8 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
 
     @Override
     public void showInfoWithStatus() {
-        mProgressHUD.showInfoWithStatus("this is notice", SVProgressHUD.SVProgressHUDMaskType.Clear);
+        mProgressHUD.showInfoWithStatus("this is notice", SVProgressHUD.SVProgressHUDMaskType
+                .Clear);
     }
 
     @Override

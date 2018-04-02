@@ -8,6 +8,9 @@ import com.example.administrator.myapplication.mvvm.model.IShowModel;
 import com.example.administrator.myapplication.mvvm.model.ShowModelImpl;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * 负责处理view和model的逻辑-所有交互由操作由命令发射器发射命令
  * Created by Administrator on 2018/3/30.
@@ -15,6 +18,10 @@ import com.example.administrator.myapplication.mvvm.view.IShowView;
 public class ShowViewModel extends BaseViewModel implements IDealDataListener {
     private IShowView mView;
     private IShowModel mModel;
+    /**
+     * 非主列表-零碎的view展示-如果有必要存储就用map
+     */
+    private HashMap<String, Universal_Cell_Class> mMap = new HashMap<>();
 
     public ShowViewModel(BaseViewModelInterface modelInterface, IShowView view) {
         super(modelInterface);
@@ -24,12 +31,12 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
 
     public void sendRequest_RecycleView(String params) {
         mView.showWithStatus();
-        mModel.sendRequest(ShowConstant.TAG_SHOW_RECYCLEVIEW, params, this);
+        mModel.sendRequest(ShowConstant.IntType.TAG_SHOW_RECYCLEVIEW, params, this);
     }
 
     public void sendRequest_Button(String params) {
         mView.showWithStatus();
-        mModel.sendRequest(ShowConstant.TAG_SHOW_BUTTON, params, this);
+        mModel.sendRequest(ShowConstant.IntType.TAG_SHOW_BUTTON, params, this);
     }
 
     /**
@@ -43,14 +50,14 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
      * model返回的数据处理
      */
     @Override
-    public void onSuccess(int type,Object json) {
+    public void onSuccess(int type, Object json) {
         switch (type) {
-            case ShowConstant.TAG_SHOW_RECYCLEVIEW:
+            case ShowConstant.IntType.TAG_SHOW_RECYCLEVIEW:
                 getData();
-                my_FaSheQi.SendDircetive("success_recycleView", null);
+                my_FaSheQi.SendDircetive(ShowConstant.StringType.TAG_SHOW_RECYCLEVIEW, null);
                 break;
-            case ShowConstant.TAG_SHOW_BUTTON://非列表类可以考虑直接传递数值或者通过成员变量
-                my_FaSheQi.SendDircetive("success_button", json);
+            case ShowConstant.IntType.TAG_SHOW_BUTTON://非列表类可以考虑直接传递数值或者通过成员变量
+                my_FaSheQi.SendDircetive(ShowConstant.StringType.TAG_SHOW_BUTTON, json);
                 break;
         }
         mView.dismiss();
@@ -58,11 +65,11 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
     }
 
     @Override
-    public void onError(int type,Object json) {
+    public void onError(int type, Object json) {
         switch (type) {
-            case ShowConstant.TAG_SHOW_RECYCLEVIEW:
+            case ShowConstant.IntType.TAG_SHOW_RECYCLEVIEW:
                 break;
-            case ShowConstant.TAG_SHOW_BUTTON:
+            case ShowConstant.IntType.TAG_SHOW_BUTTON:
                 break;
         }
         mView.dismiss();

@@ -15,7 +15,7 @@ public class ShowModelImpl implements IShowModel {
     @Override
     public void sendRequest(final int type, final String params, final IDealDataListener listener) {
         switch (type) {
-            case ShowConstant.TAG_SHOW_RECYCLEVIEW:
+            case ShowConstant.IntType.TAG_SHOW_RECYCLEVIEW:
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -27,7 +27,7 @@ public class ShowModelImpl implements IShowModel {
                     }
                 }, 1000);
                 break;
-            case ShowConstant.TAG_SHOW_BUTTON:
+            case ShowConstant.IntType.TAG_SHOW_BUTTON:
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
