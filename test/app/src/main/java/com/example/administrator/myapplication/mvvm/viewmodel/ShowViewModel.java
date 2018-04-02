@@ -8,7 +8,6 @@ import com.example.administrator.myapplication.mvvm.model.IShowModel;
 import com.example.administrator.myapplication.mvvm.model.ShowModelImpl;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -27,6 +26,7 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
         super(modelInterface);
         mView = view;
         mModel = new ShowModelImpl();
+
     }
 
     public void sendRequest_RecycleView(String params) {
