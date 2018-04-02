@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.mvvm.util;
+package com.example.administrator.myapplication.mvvm.bean;
 
 import java.io.Serializable;
 

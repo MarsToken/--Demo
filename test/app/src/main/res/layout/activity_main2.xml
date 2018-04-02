@@ -7,13 +7,13 @@
     tools:context="com.example.administrator.myapplication.Main2Activity">
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_changedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="拉取数据"/>
 
     <Button
-        android:id="@+id/btn1"
+        android:id="@+id/btn_changedSelf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -22,9 +22,9 @@
         />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+        android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn"/>
+        android:layout_below="@id/btn_changedList"/>
 
 </RelativeLayout>

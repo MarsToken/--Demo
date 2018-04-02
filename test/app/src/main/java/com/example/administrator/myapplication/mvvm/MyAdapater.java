@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.mvvm.util.Universal_Cell_Class;
+import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
 
 import java.util.ArrayList;
 

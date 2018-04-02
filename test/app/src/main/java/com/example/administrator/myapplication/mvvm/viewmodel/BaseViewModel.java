@@ -1,8 +1,8 @@
-package com.example.administrator.myapplication.mvvm;
+package com.example.administrator.myapplication.mvvm.viewmodel;
 
-import com.example.administrator.myapplication.mvvm.util.BaseViewModelInterface;
-import com.example.administrator.myapplication.mvvm.util.NetEvent;
-import com.example.administrator.myapplication.mvvm.util.Universal_Cell_Class;
+import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
+import com.example.administrator.myapplication.mvvm.interfaces.NetEvent;
+import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
 
 import java.util.ArrayList;
 
