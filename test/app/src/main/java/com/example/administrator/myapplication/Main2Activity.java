@@ -3,17 +3,21 @@ package com.example.administrator.myapplication;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.example.administrator.myapplication.mvvm.MyAdapater;
+import com.example.administrator.myapplication.mvvm.ShowListViewAdapter;
 import com.example.administrator.myapplication.mvvm.ShowRecyclerViewAdapter;
 import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
+import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
+import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
-import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,12 +45,15 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
     Button btn_changedList;
     @BindView(R.id.btn_changedSelf)
     Button btn_changedSelf;
+    @BindView(R.id.lv_list)
+    ListView lv_list;
     private SVProgressHUD mProgressHUD;
     /**
      * vm
      */
     private ShowViewModel mViewModel;
-    private ShowRecyclerViewAdapter mAdapter;
+    private ShowRecyclerViewAdapter mAdapter_rv;
+    private ShowListViewAdapter mAdapter_lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,8 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
         ButterKnife.bind(this);
         mViewModel = new ShowViewModel(this, this);
         mProgressHUD = new SVProgressHUD(this);
-
+        count = 111;
+        Log.e("tag", count + "个");
     }
 
     @Override
@@ -80,16 +88,24 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
     public void SendDircetive(String name, Object params) {
         switch (name) {
             case ShowConstant.StringType.TAG_SHOW_RECYCLEVIEW:
-                if (null == mAdapter) {
+                if (null == mAdapter_rv) {
                     rv.setLayoutManager(new LinearLayoutManager(this));
-                    mAdapter = new ShowRecyclerViewAdapter(this, mViewModel.data_Array);
-                    rv.setAdapter(mAdapter);
+                    mAdapter_rv = new ShowRecyclerViewAdapter(this, mViewModel.data_Array);
+                    rv.setAdapter(mAdapter_rv);
                 } else {
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter_rv.notifyDataSetChanged();
                 }
                 break;
             case ShowConstant.StringType.TAG_SHOW_BUTTON:
                 btn_changedSelf.setText(params.toString());
+                if (null == mAdapter_lv) {
+                    mViewModel.data_Array.add(new Universal_Cell_Class().set_Cell_Value("1111"));
+                    mViewModel.data_Array.add(new Universal_Cell_Class().set_Cell_Value("2222"));
+                    mAdapter_lv = new ShowListViewAdapter(this,mViewModel.data_Array,R.layout.item_text);
+                    lv_list.setAdapter(mAdapter_lv);
+                } else {
+                    mAdapter_lv.notifyDataSetChanged();
+                }
                 break;
             default:
 

@@ -25,6 +25,13 @@
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_changedList"/>
+        android:layout_below="@id/btn_changedList"
+        />
 
+    <ListView
+        android:id="@+id/lv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rv_list"
+        />
 </RelativeLayout>
