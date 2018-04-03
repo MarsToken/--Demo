@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.example.administrator.myapplication.mvvm.MyAdapater;
+import com.example.administrator.myapplication.mvvm.ShowRecyclerViewAdapter;
 import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
@@ -45,7 +46,7 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
      * vm
      */
     private ShowViewModel mViewModel;
-    private MyAdapater mAdapter;
+    private ShowRecyclerViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
             case ShowConstant.StringType.TAG_SHOW_RECYCLEVIEW:
                 if (null == mAdapter) {
                     rv.setLayoutManager(new LinearLayoutManager(this));
-                    mAdapter = new MyAdapater(this, mViewModel.data_Array);
+                    mAdapter = new ShowRecyclerViewAdapter(this, mViewModel.data_Array);
                     rv.setAdapter(mAdapter);
                 } else {
                     mAdapter.notifyDataSetChanged();
