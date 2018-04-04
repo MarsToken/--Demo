@@ -1,5 +1,8 @@
 package com.example.administrator.myapplication;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,14 +13,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.example.administrator.myapplication.mvvm.MyAdapater;
-import com.example.administrator.myapplication.mvvm.ShowListViewAdapter;
-import com.example.administrator.myapplication.mvvm.ShowRecyclerViewAdapter;
+import com.example.administrator.myapplication.mvvm.controller.ShowFragment;
+import com.example.administrator.myapplication.mvvm.test.MyAdapater;
+import com.example.administrator.myapplication.mvvm.test.MyPopupWindow;
+import com.example.administrator.myapplication.mvvm.test.ShowListViewAdapter;
+import com.example.administrator.myapplication.mvvm.test.ShowRecyclerViewAdapter;
 import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
-import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
 import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
+import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
+import com.example.administrator.myapplication.mvvm.widget.base.BaseDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,27 +39,35 @@ import butterknife.OnClick;
  * @author wangmaobo
  * @date 2018/3/30
  */
-public class Main2Activity extends BaseActivity implements BaseViewModelInterface, IShowView,
-        MyAdapater.ChildClickListener {
+public class Main2Activity extends BaseActivity
+        implements BaseViewModelInterface,//发射器
+        IShowView,//view层
+        ShowFragment.OnFragmentInteractionListener,//fragment
+        MyAdapater.ChildClickListener,//列表
+        TopTitleView.TopClickListener,//标题
+        View.OnClickListener,//popupWindow
+        BaseDialog.AlertDialogListener {//dialog
 
     /**
-     * view
+     * view-适配器对应列表view
      **/
     @BindView(R.id.rv_list)
     RecyclerView rv;
     @BindView(R.id.btn_changedList)
     Button btn_changedList;
+    private ShowRecyclerViewAdapter mAdapter_rv;
     @BindView(R.id.btn_changedSelf)
     Button btn_changedSelf;
+    private ShowListViewAdapter mAdapter_lv;
     @BindView(R.id.lv_list)
     ListView lv_list;
-    private SVProgressHUD mProgressHUD;
+    private MyPopupWindow mPopupWindow;
+
     /**
      * vm
      */
     private ShowViewModel mViewModel;
-    private ShowRecyclerViewAdapter mAdapter_rv;
-    private ShowListViewAdapter mAdapter_lv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +86,7 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
         mViewModel.clear();
     }
 
-    @OnClick({R.id.btn_changedList, R.id.btn_changedSelf})
+    @OnClick({R.id.btn_changedList, R.id.btn_changedSelf, R.id.btn_popup, R.id.btn_dialog})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_changedList:
@@ -80,6 +94,12 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
                 break;
             case R.id.btn_changedSelf:
                 mViewModel.sendRequest_Button("params1");
+                break;
+            case R.id.btn_popup:
+                showPopupWindow();
+                break;
+            case R.id.btn_dialog:
+                showDialog();
                 break;
         }
     }
@@ -99,9 +119,8 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
             case ShowConstant.StringType.TAG_SHOW_BUTTON:
                 btn_changedSelf.setText(params.toString());
                 if (null == mAdapter_lv) {
-                    mViewModel.data_Array.add(new Universal_Cell_Class().set_Cell_Value("1111"));
-                    mViewModel.data_Array.add(new Universal_Cell_Class().set_Cell_Value("2222"));
-                    mAdapter_lv = new ShowListViewAdapter(this,mViewModel.data_Array,R.layout.item_text);
+                    mAdapter_lv = new ShowListViewAdapter(this, mViewModel.data_Array_listView,
+                            R.layout.item_text);
                     lv_list.setAdapter(mAdapter_lv);
                 } else {
                     mAdapter_lv.notifyDataSetChanged();
@@ -135,8 +154,8 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
 
     @Override
     public void showInfoWithStatus() {
-        mProgressHUD.showInfoWithStatus("this is notice", SVProgressHUD.SVProgressHUDMaskType
-                .Clear);
+        mProgressHUD.showInfoWithStatus("this is notice",
+                SVProgressHUD.SVProgressHUDMaskType.Clear);
     }
 
     @Override
@@ -157,5 +176,74 @@ public class Main2Activity extends BaseActivity implements BaseViewModelInterfac
     @Override
     public void dismiss() {
         mProgressHUD.dismissImmediately();
+    }
+
+    @Override
+    public void showPopupWindow() {
+        mPopupWindow = new MyPopupWindow(this, this, null);
+        mPopupWindow.setListener(R.id.iv).showAtBottom(findViewById(R.id.root));
+    }
+
+    @Override
+    public void showDialog() {
+        new BaseDialog(this)
+                .setAlertDialogListener(this)
+                .show("I'm content", "I'm title", "取消", "确定");
+    }
+
+    /**
+     * title
+     */
+    @Override
+    public void onLeftClick() {
+        Toast.makeText(this, "left", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRightClick() {
+        Toast.makeText(this, "right", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {//popupWindow
+            case R.id.iv:
+                Toast.makeText(this, "确定了", Toast.LENGTH_SHORT).show();
+                mPopupWindow.dismiss();
+                break;
+        }
+    }
+
+    /**
+     * AlertDialog
+     */
+    @Override
+    public void onCancelDialog() {
+        Toast.makeText(this, "dialog is cancelled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCertainDialog() {
+        Toast.makeText(this, "I'm certain!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 与fragment之间的交互
+     *
+     * @param uri
+     */
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    /**
+     * 本界面的入口
+     *
+     * @param activity
+     * @param params
+     */
+    public static void launch(Activity activity, String... params) {
+        activity.startActivity(new Intent(activity, Main2Activity.class));
     }
 }

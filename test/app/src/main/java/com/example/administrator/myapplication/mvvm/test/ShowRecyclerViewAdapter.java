@@ -1,10 +1,10 @@
-package com.example.administrator.myapplication.mvvm;
+package com.example.administrator.myapplication.mvvm.test;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.mvvm.base.BaseRecyclerViewAdapter;
+import com.example.administrator.myapplication.mvvm.widget.base.adapter.BaseRecyclerViewAdapter;
 import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
 
 import java.util.List;

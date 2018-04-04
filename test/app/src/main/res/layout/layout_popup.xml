@@ -3,14 +3,14 @@
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="#f0f"
-    android:minHeight="100dp">
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
         android:background="#887"
         android:gravity="center"
         >

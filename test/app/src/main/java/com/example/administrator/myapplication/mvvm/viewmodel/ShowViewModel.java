@@ -8,6 +8,7 @@ import com.example.administrator.myapplication.mvvm.model.IShowModel;
 import com.example.administrator.myapplication.mvvm.model.ShowModelImpl;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -21,6 +22,7 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
      * 非主列表-零碎的view展示-如果有必要存储就用map
      */
     private HashMap<String, Universal_Cell_Class> mMap = new HashMap<>();
+    public ArrayList<Universal_Cell_Class> data_Array_listView = new ArrayList<>();
 
     public ShowViewModel(BaseViewModelInterface modelInterface, IShowView view) {
         super(modelInterface);
@@ -53,10 +55,11 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
     public void onSuccess(int type, Object json) {
         switch (type) {
             case ShowConstant.IntType.TAG_SHOW_RECYCLEVIEW:
-                getData();
+                getRecycleViewData();
                 my_FaSheQi.SendDircetive(ShowConstant.StringType.TAG_SHOW_RECYCLEVIEW, null);
                 break;
             case ShowConstant.IntType.TAG_SHOW_BUTTON://非列表类可以考虑直接传递数值或者通过成员变量
+                getListViewData();
                 my_FaSheQi.SendDircetive(ShowConstant.StringType.TAG_SHOW_BUTTON, json);
                 break;
         }
@@ -76,7 +79,7 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
         mView.showErrorWithStatus();
     }
 
-    private void getData() {
+    private void getRecycleViewData() {
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
                 ("北京博锐尚格节能技术有限公司").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")
@@ -93,6 +96,13 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
                 .set_Is_Select(false).set_Parameter(""));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
                 ("北京博锐尚格节能技术有限公司").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
+    }
+
+    private void getListViewData() {
+        for (int i = 0; i < 18; i++) {
+            data_Array_listView.add(new Universal_Cell_Class()
+                    .set_Cell_Value("test test test " + "test test test" + i));
+        }
     }
 
     public void clear() {

@@ -1,7 +1,8 @@
 package com.example.administrator.myapplication.mvvm.view;
 
 /**
- * 简单的界面显示封装，交互类的用基类的发射器
+ * 简单的界面交互封装，设计到model层的用基类的发射器
+ * 命名规范-控件
  * Created by wangmaobo on 2018/4/2.
  */
 public interface IShowView {
@@ -24,4 +25,11 @@ public interface IShowView {
     void showWithProgress();
 
     void dismiss();
+
+    /**
+     * 不需要经过model拉取数据
+     */
+    void showPopupWindow();
+
+    void showDialog();
 }

@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.mvvm;
+package com.example.administrator.myapplication.mvvm.test;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

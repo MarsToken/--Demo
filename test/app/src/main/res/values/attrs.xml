@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopTitleView">
+        <attr name="leftTextColor">color</attr>
+        <attr name="rightTextColor">color</attr>
+        <attr name="titleColor">color</attr>
+        <attr name="leftBackground">reference|color</attr>
+        <attr name="rightBackground">reference|color</attr>
+        <attr name="leftText">string</attr>
+        <attr name="rightText">string</attr>
+        <attr name="titleText">string</attr>
+        <attr name="titleTextSize">dimension</attr>
+    </declare-styleable>
+</resources>

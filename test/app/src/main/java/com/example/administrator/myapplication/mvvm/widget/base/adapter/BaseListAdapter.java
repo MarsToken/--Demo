@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.mvvm.base;
+package com.example.administrator.myapplication.mvvm.widget.base.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * function="基于ListView GridView的万能适配器"
- * Created by Administrator on 2018/4/3.
+ * Created by wangmaobo on 2018/4/3.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter {
     protected List<T> mBeans;

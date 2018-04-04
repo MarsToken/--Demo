@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.mvvm.base;
+package com.example.administrator.myapplication.mvvm.widget.base.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
