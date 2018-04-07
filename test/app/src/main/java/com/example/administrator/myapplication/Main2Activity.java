@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,17 +16,21 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
 import com.example.administrator.myapplication.mvvm.controller.ShowFragment;
+import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
 import com.example.administrator.myapplication.mvvm.test.MyAdapater;
 import com.example.administrator.myapplication.mvvm.test.MyPopupWindow;
 import com.example.administrator.myapplication.mvvm.test.ShowListViewAdapter;
 import com.example.administrator.myapplication.mvvm.test.ShowRecyclerViewAdapter;
-import com.example.administrator.myapplication.mvvm.bean.ShowConstant;
-import com.example.administrator.myapplication.mvvm.interfaces.BaseViewModelInterface;
 import com.example.administrator.myapplication.mvvm.view.IShowView;
 import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
 import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
 import com.example.administrator.myapplication.mvvm.widget.base.BaseDialog;
+import com.example.administrator.myapplication.mvvm.widget.base.adapter.BaseFragmentAdapter;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +62,11 @@ public class Main2Activity extends BaseActivity
     RecyclerView rv;
     @BindView(R.id.btn_changedList)
     Button btn_changedList;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.viewpager)
+    ViewPager viewpager;
+    private BaseFragmentAdapter mAdapter_vp;
     private ShowRecyclerViewAdapter mAdapter_rv;
     @BindView(R.id.btn_changedSelf)
     Button btn_changedSelf;
@@ -78,10 +90,25 @@ public class Main2Activity extends BaseActivity
         mProgressHUD = new SVProgressHUD(this);
         count = 111;
         Log.e("tag", count + "个");
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        final String[] title = new String[]{"新闻", "图片", "视频"};
+        mAdapter_vp = new BaseFragmentAdapter(getSupportFragmentManager(), title) {
+            @Override
+            protected Fragment getFragment(int position) {
+                return ShowFragment.newInstance(title[position], position + "");
+            }
+        };
+        tabLayout.setupWithViewPager(viewpager);
+        viewpager.setAdapter(mAdapter_vp);
+
     }
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         mViewModel.clear();
     }

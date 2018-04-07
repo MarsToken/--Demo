@@ -1,20 +1,27 @@
 package com.example.administrator.myapplication.mvvm.controller;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.administrator.myapplication.BaseFragment;
 import com.example.administrator.myapplication.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShowFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link ShowFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -24,6 +31,9 @@ public class ShowFragment extends BaseFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.fg_tv)
+    TextView fgTv;
+    Unbinder unbinder;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -50,6 +60,7 @@ public class ShowFragment extends BaseFragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        Log.e("putString", param1);
         return fragment;
     }
 
@@ -66,8 +77,21 @@ public class ShowFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        fgTv.setText(mParam1);
+        switch (mParam2) {
+            case "0":
+                view.setBackgroundColor(Color.RED);
+                break;
+            case "1":
+                view.setBackgroundColor(Color.BLUE);
+                break;
+            case "2":
+                view.setBackgroundColor(Color.YELLOW);
+                break;
+        }
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,6 +116,12 @@ public class ShowFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     /**
