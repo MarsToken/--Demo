@@ -28,9 +28,10 @@ import com.example.administrator.myapplication.mvvm.viewmodel.ShowViewModel;
 import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
 import com.example.administrator.myapplication.mvvm.widget.base.BaseDialog;
 import com.example.administrator.myapplication.mvvm.widget.base.adapter.BaseFragmentAdapter;
+import com.example.administrator.myapplication.mvvm.widget.base.adapter.BaseSingleViewAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,6 +102,21 @@ public class Main2Activity extends BaseActivity
                 return ShowFragment.newInstance(title[position], position + "");
             }
         };
+//        List<String> list = new ArrayList<>();
+//        for (int i = 0; i < title.length; i++) {
+//            list.add(title[i]);
+//        }
+//        BaseSingleViewAdapter adapter = new BaseSingleViewAdapter(this, list) {
+//            @Override
+//            protected void onBindViewData(View view, int position) {
+//                setText(R.id.tv, view, "pos=" + position);
+//            }
+//
+//            @Override
+//            protected int getContentLayout(int position) {
+//                return R.layout.item_text;
+//            }
+//        };
         tabLayout.setupWithViewPager(viewpager);
         viewpager.setAdapter(mAdapter_vp);
 
@@ -108,7 +124,6 @@ public class Main2Activity extends BaseActivity
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         mViewModel.clear();
     }

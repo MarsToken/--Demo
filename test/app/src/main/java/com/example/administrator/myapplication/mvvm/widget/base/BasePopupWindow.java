@@ -34,7 +34,7 @@ public abstract class BasePopupWindow<T> extends PopupWindow {
                 .inflate(getLayoutId(), null);
         setContentView(mPopupLayout);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         setFocusable(true);
         //setAnimationStyle(R.style.popup_vertical);
         ColorDrawable dw = new ColorDrawable(0xb0000000);
@@ -85,7 +85,13 @@ public abstract class BasePopupWindow<T> extends PopupWindow {
      * @param parent
      */
     public void showAtBottom(View parent) {
+        View view = mPopupLayout.findViewById(getContentViewId());
+        setAnimation(view);
         showAtLocation(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    protected void setAnimation(View target) {
+
     }
 
     /**

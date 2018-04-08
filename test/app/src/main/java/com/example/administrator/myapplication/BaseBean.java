@@ -1,70 +1,48 @@
 package com.example.administrator.myapplication;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/3/29.
  */
 public class BaseBean {
-
+    private String name;
+    private int age;
+    private List<String> list;
+    private Map<String, String> map;
     /**
      * Content : [{"code":"11","name":"朵朵保修"},{"code":"1","name":"维保"},{"code":"2","name":"维修"},
      * {"code":"3","name":"巡检"},{"code":"4","name":"运行"}]
      * Count : 5
      * Result : success
      */
-
-    private int Count;
-    private String Result;
-    private List<ContentBean> Content;
-
-    public int getCount() {
-        return Count;
+    public String getName() {
+        return name == null ? "" : name;
     }
 
-    public void setCount(int Count) {
-        this.Count = Count;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getResult() {
-        return Result;
+    public int getAge() {
+        return age;
     }
 
-    public void setResult(String Result) {
-        this.Result = Result;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public List<ContentBean> getContent() {
-        return Content;
-    }
-
-    public void setContent(List<ContentBean> Content) {
-        this.Content = Content;
-    }
-
-    public static class ContentBean {
-        /**
-         * code : 11
-         * name : 朵朵保修
-         */
-
-        private String code;
-        private String name;
-
-        public String getCode() {
-            return code;
+    public List<String> getList() {
+        if (list == null) {
+            return new ArrayList<>();
         }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+        return list;
     }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
 }

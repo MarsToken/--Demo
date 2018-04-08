@@ -7,13 +7,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
- * fragment-baseAdapter
+ * function="基于fragment的viewpager的适配器"
  * Created by wangmaobo on 2018/4/7.
  */
-public abstract class BaseFragmentAdapter<T> extends FragmentPagerAdapter {
-    private T[] mTitle;
+public abstract class BaseFragmentAdapter extends FragmentPagerAdapter {
+    private String[] mTitle;
 
-    public BaseFragmentAdapter(FragmentManager fm, T[] title) {
+    public BaseFragmentAdapter(FragmentManager fm, String[] title) {
         super(fm);
         mTitle = title;
     }
