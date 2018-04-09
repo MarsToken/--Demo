@@ -1,10 +1,11 @@
 package com.example.administrator.myapplication.mvvm.controller;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,11 @@ import android.widget.TextView;
 
 import com.example.administrator.myapplication.BaseFragment;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
+import com.example.administrator.myapplication.mvvm.test.ShowRecyclerViewAdapter;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +40,12 @@ public class ShowFragment extends BaseFragment {
     @BindView(R.id.fg_tv)
     TextView fgTv;
     Unbinder unbinder;
+    @BindView(R.id.rv)
+    RecyclerView rv;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private ArrayList<Universal_Cell_Class> mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -54,11 +62,11 @@ public class ShowFragment extends BaseFragment {
      * @return A new instance of fragment ShowFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShowFragment newInstance(String param1, String param2) {
+    public static ShowFragment newInstance(String param1, Object param2) {
         ShowFragment fragment = new ShowFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM2, (Serializable) param2);
         fragment.setArguments(args);
         Log.e("putString", param1);
         return fragment;
@@ -69,7 +77,7 @@ public class ShowFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = (ArrayList<Universal_Cell_Class>) getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
@@ -80,17 +88,10 @@ public class ShowFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         unbinder = ButterKnife.bind(this, view);
         fgTv.setText(mParam1);
-        switch (mParam2) {
-            case "0":
-                view.setBackgroundColor(Color.RED);
-                break;
-            case "1":
-                view.setBackgroundColor(Color.BLUE);
-                break;
-            case "2":
-                view.setBackgroundColor(Color.YELLOW);
-                break;
-        }
+        Log.e("tag", mParam2.size() + "个");
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        ShowRecyclerViewAdapter adapter = new ShowRecyclerViewAdapter(mActivity, mParam2);
+        rv.setAdapter(adapter);
         return view;
     }
 

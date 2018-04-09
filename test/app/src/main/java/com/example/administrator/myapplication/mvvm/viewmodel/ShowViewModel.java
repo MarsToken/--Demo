@@ -28,7 +28,7 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
         super(modelInterface);
         mView = view;
         mModel = new ShowModelImpl();
-
+        getRecycleViewData();//测试fragment数据
     }
 
     public void sendRequest_RecycleView(String params) {
@@ -80,6 +80,7 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
     }
 
     private void getRecycleViewData() {
+        data_Array.clear();
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
                 ("北京博锐尚格节能技术有限公司").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")

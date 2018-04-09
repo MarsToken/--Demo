@@ -61,16 +61,16 @@ public class Main2Activity extends BaseActivity
      **/
     @BindView(R.id.rv_list)
     RecyclerView rv;
-    @BindView(R.id.btn_changedList)
-    Button btn_changedList;
+    @BindView(R.id.btn_rv)
+    Button btn_rv;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
     private BaseFragmentAdapter mAdapter_vp;
     private ShowRecyclerViewAdapter mAdapter_rv;
-    @BindView(R.id.btn_changedSelf)
-    Button btn_changedSelf;
+    @BindView(R.id.btn_lv)
+    Button btn_lv;
     private ShowListViewAdapter mAdapter_lv;
     @BindView(R.id.lv_list)
     ListView lv_list;
@@ -99,7 +99,7 @@ public class Main2Activity extends BaseActivity
         mAdapter_vp = new BaseFragmentAdapter(getSupportFragmentManager(), title) {
             @Override
             protected Fragment getFragment(int position) {
-                return ShowFragment.newInstance(title[position], position + "");
+                return ShowFragment.newInstance(title[position], mViewModel.data_Array);
             }
         };
 //        List<String> list = new ArrayList<>();
@@ -128,13 +128,13 @@ public class Main2Activity extends BaseActivity
         mViewModel.clear();
     }
 
-    @OnClick({R.id.btn_changedList, R.id.btn_changedSelf, R.id.btn_popup, R.id.btn_dialog})
+    @OnClick({R.id.btn_rv, R.id.btn_lv, R.id.btn_popup, R.id.btn_dialog})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_changedList:
+            case R.id.btn_rv:
                 mViewModel.sendRequest_RecycleView("params");
                 break;
-            case R.id.btn_changedSelf:
+            case R.id.btn_lv:
                 mViewModel.sendRequest_Button("params1");
                 break;
             case R.id.btn_popup:
@@ -159,7 +159,7 @@ public class Main2Activity extends BaseActivity
                 }
                 break;
             case ShowConstant.StringType.TAG_SHOW_BUTTON:
-                btn_changedSelf.setText(params.toString());
+                btn_lv.setText(params.toString());
                 if (null == mAdapter_lv) {
                     mAdapter_lv = new ShowListViewAdapter(this, mViewModel.data_Array_listView,
                             R.layout.item_text);
