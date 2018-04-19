@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.mvvm.test;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
@@ -59,7 +60,7 @@ public class ShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<Universal_C
     }
 
     @Override
-    protected void onSingleViewClick(int position) {
+    protected void onSingleViewClick(View v,int position) {
         if (mBeans.get(position).is_Select) {
             Toast.makeText(mContext, "pos=" + position + mBeans.get(position).parameter,
                     Toast.LENGTH_SHORT).show();

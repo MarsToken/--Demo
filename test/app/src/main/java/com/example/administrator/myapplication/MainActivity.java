@@ -1,28 +1,49 @@
 package com.example.administrator.myapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
+
+import com.example.administrator.myapplication.mvvm.utils.ScreenUtils;
+import com.example.administrator.myapplication.mvvm.widget.AutoNewLineLayout;
+import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
+import com.example.administrator.myapplication.mvvm.widget.base.BaseFreeLocationPopupWindow;
+import com.example.administrator.myapplication.testlist.ListActivity;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends BaseActivity implements GetDataListener {
+public class MainActivity extends BaseActivity implements TopTitleView.TopClickListener,
+        AutoNewLineLayout.AutoViewClickListener {
+
+    @BindView(R.id.iv_pop)
+    ImageView mIvPop;
+    @BindView(R.id.flow_layout)
+    AutoNewLineLayout mFlowLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new TestLongConnect().setListener(this);
+        ButterKnife.bind(this);
+        mFlowLayout.setItemClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("tag", count + "个");
+    }
+
+    private void testRetrofit() {
         MyApi api = ((MyApp) getApplication()).getRetrofitInstance().create(MyApi.class);
         Call<ResponseBody> call = api.getData();
         call.enqueue(new Callback<ResponseBody>() {
@@ -41,23 +62,57 @@ public class MainActivity extends BaseActivity implements GetDataListener {
             }
         });
         count = 599999;
-        TextView tv = findViewById(R.id.tv);
-        tv.setText(count + "个");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("tag", count + "个");
-    }
-
-    @Override
-    public void getData(Object xxx) {
-        // TODO: 2018/3/2 处理数据，展示UI
-
     }
 
     public void onViewClicked(View view) {
-        startActivity(new Intent(this, Main2Activity.class));
+        switch (view.getId()) {
+            case R.id.iv_pop:
+                showPopup();
+                break;
+        }
+    }
+
+    private BaseFreeLocationPopupWindow mPopupWindow;
+
+    private void showPopup() {
+        mPopupWindow = new BaseFreeLocationPopupWindow(this) {
+            @Override
+            protected int getLayoutId() {
+                return R.layout.layout_diy_pop;
+            }
+        };
+        mIvPop.post(new Runnable() {
+            @Override
+            public void run() {
+                int bottom = mIvPop.getBottom()
+                        + ScreenUtils.getStatusHeight(MainActivity.this);
+                mPopupWindow.showAtDIY(findViewById(R.id.iv_pop), 0, bottom);
+            }
+        });
+    }
+
+    @Override
+    public void onLeftClick() {
+        finish();
+    }
+
+    @Override
+    public void onRightClick() {
+
+    }
+
+    @Override
+    public void itemClickListener(int position) {
+        switch (position) {
+            case 0:
+                startActivity(new Intent(this, Main2Activity.class));
+                break;
+            case 1:
+                ListActivity.launch(this);
+                break;
+            default:
+                TestActivity.launch(this);
+                break;
+        }
     }
 }

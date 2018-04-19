@@ -26,11 +26,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    /*retrofit*/
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    /*buffernight*/
     implementation 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:design:26.1.0'
+    /*progressbar*/
     compile 'com.bigkoo:svprogresshud:1.0.6'
+    /*commonPullToRefresh*/
+    compile 'com.chanven.lib:cptr:1.1.0'
+    /*带上拉加载更多的swipeRefreshLayout*/
+    compile 'com.github.omadahealth:swipy:1.2.3@aar'
+    /*添加头部的Recyclerview*/
+    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
+    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
 }

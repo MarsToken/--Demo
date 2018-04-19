@@ -6,7 +6,9 @@ import java.io.Serializable;
  * Created by Administrator on 2016/1/5.
  */
 public class Universal_Cell_Class implements Serializable {
-
+    public static final String TYPE1 = "cell1";
+    public static final String TYPE2 = "cell2";
+    public static final String TYPE3 = "cell3";
     public String cell_Type;//样式
 
     public Object cell_Value="";//值

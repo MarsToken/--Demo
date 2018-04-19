@@ -90,6 +90,7 @@ public abstract class BaseRecyclerViewAdapter<T>
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final SparseArray<View> mViews;
         private View itemView;
+        private int mPosition;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -142,9 +143,18 @@ public abstract class BaseRecyclerViewAdapter<T>
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onSingleViewClick(getAdapterPosition());
+                    onSingleViewClick(v, getAdapterPosition());
                 }
             });
+        }
+
+        /**
+         * 获取当前的位置
+         *
+         * @return
+         */
+        public int getCurrentPosition() {
+            return getAdapterPosition();
         }
     }
 
@@ -179,7 +189,7 @@ public abstract class BaseRecyclerViewAdapter<T>
      *
      * @param position
      */
-    protected void onSingleViewClick(int position) {
+    protected void onSingleViewClick(View v, int position) {
 
     }
 
