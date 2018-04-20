@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.testlist;
+package com.example.administrator.myapplication.testlist.recyclerview;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListActivity extends BaseActivity implements TopTitleView.TopClickListener {
+public class RecyclerListActivity extends BaseActivity implements TopTitleView.TopClickListener {
 
     @BindView(R.id.ui_rv_comment)
     RecyclerView ui_Rv_Comment;
@@ -59,7 +59,7 @@ public class ListActivity extends BaseActivity implements TopTitleView.TopClickL
     }
 
     public static void launch(Activity activity) {
-        activity.startActivity(new Intent(activity, ListActivity.class));
+        activity.startActivity(new Intent(activity, RecyclerListActivity.class));
     }
 
     @Override

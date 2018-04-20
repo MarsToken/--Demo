@@ -69,7 +69,7 @@
             android:layout_height="100dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/tv_comment"
-            android:background="#f99"
+            android:background="@drawable/round_corner"
             android:gravity="start"
             android:hint="请输入评语"
             android:textSize="15sp"

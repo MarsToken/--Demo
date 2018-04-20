@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.testlist;
+package com.example.administrator.myapplication.testlist.recyclerview;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,7 +21,6 @@ import java.util.List;
  * Created by wmb on 2018/4/19.
  */
 public class CommentRVAdapter extends BaseRecyclerViewAdapter<CommentBean> {
-    private boolean isChanged = true;
     public CommentRVAdapter(Context context, List<CommentBean> beans) {
         super(context, beans);
     }
@@ -34,17 +33,16 @@ public class CommentRVAdapter extends BaseRecyclerViewAdapter<CommentBean> {
     @Override
     protected void onBindDataToView(final ViewHolder holder, final CommentBean bean) {
         setListener(holder, bean);
-        initUI(holder, bean, bean.isEdit);
+        initUI(holder, bean);
     }
 
-    private void initUI(ViewHolder holder, CommentBean bean, boolean isEdit) {
-        isChanged = true;
+    private void initUI(ViewHolder holder, CommentBean bean) {
         holder.setText(R.id.ui_tv_name, bean.name);
         RatingBar bar = holder.getView(R.id.ui_ratingBar);
         LayerDrawable drawable = (LayerDrawable) bar.getProgressDrawable();
         drawable.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         bar.setRating(bean.score);
-        if (isEdit) {
+        if (bean.isEdit) {
             holder.setText(R.id.ui_et_comment, bean.comment);
             bar.setIsIndicator(false);
             holder.getView(R.id.ll_comment_tv).setVisibility(View.GONE);
@@ -57,18 +55,19 @@ public class CommentRVAdapter extends BaseRecyclerViewAdapter<CommentBean> {
             holder.setText(R.id.ui_tv_comment, bean.comment);
             bar.setIsIndicator(true);
         }
-        isChanged = false;
+        Log.e("tag", "init finished!");
     }
 
     private void setListener(final ViewHolder holder, final CommentBean bean) {
         final EditText et = holder.getView(R.id.ui_et_comment);
+        //et.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         final RatingBar rb = holder.getView(R.id.ui_ratingBar);
         holder.getView(R.id.btn_commit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bean.isEdit = false;
-                //initUI(holder, bean, false);
-                notifyDataSetChanged();
+                initUI(holder, bean);
+                //notifyDataSetChanged();
             }
         });
         holder.getView(R.id.btn_reset).setOnClickListener(new View.OnClickListener() {
@@ -76,8 +75,16 @@ public class CommentRVAdapter extends BaseRecyclerViewAdapter<CommentBean> {
             public void onClick(View v) {
                 bean.score = 0;
                 bean.comment = "";
-                //initUI(holder, bean, true);
-                notifyDataSetChanged();
+                Log.e("tag" + holder.getCurrentPosition(), "false clear all");
+                initUI(holder, bean);
+                //notifyDataSetChanged();
+            }
+        });
+        rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                bean.score = rating;
+                Log.e("tag" + holder.getCurrentPosition(), bean.name + "score=" + rating);
             }
         });
         et.addTextChangedListener(new TextWatcher() {
@@ -91,29 +98,18 @@ public class CommentRVAdapter extends BaseRecyclerViewAdapter<CommentBean> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!isChanged) {
-                    int end = et.getText().toString().length();
-                    int max = 200;
-                    if (s.length() > max) {
-                        s.delete(max, end);
-                        et.setText(s);
-                        et.setSelection(max);
-                        Toast.makeText(mContext, "最多输入200个字符", Toast.LENGTH_SHORT).show();
-                    }
-
-                    bean.comment = s.toString();
-                    holder.setText(R.id.ui_tv_limit, s.length() + "/" + max);
-                    Log.e("tag" + holder.getCurrentPosition(), s.toString()+"来自EditText");
+                Log.e("tag" + holder.getCurrentPosition(), "afterTextChanged="+s);
+                int end = et.getText().toString().length();
+                int max = 200;
+                if (s.length() > max) {
+                    s.delete(max, end);
+                    et.setText(s);
+                    et.setSelection(max);
+                    Toast.makeText(mContext, "最多输入200个字符", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-        rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (!isChanged) {
-                    bean.score = rating;
-                    Log.e("tag" + holder.getCurrentPosition(), bean.name + "score=" + rating);
-                }
+                bean.comment = s.toString();
+                holder.setText(R.id.ui_tv_limit, s.length() + "/" + max);
+                Log.e("tag" + holder.getCurrentPosition(), s.toString() + "来自EditText");
             }
         });
     }

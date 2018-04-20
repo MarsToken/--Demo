@@ -39,7 +39,7 @@ public class TestActivity extends AppCompatActivity implements ShowFragment.OnFr
                 ratingBar.setRating(rating);
             }
         });
-        
+
     }
 
     private void testRichText() {

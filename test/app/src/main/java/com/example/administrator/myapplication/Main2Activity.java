@@ -196,8 +196,7 @@ public class Main2Activity extends BaseActivity
 
     @Override
     public void showInfoWithStatus() {
-        mProgressHUD.showInfoWithStatus("this is notice",
-                SVProgressHUD.SVProgressHUDMaskType.Clear);
+        mProgressHUD.showInfoWithStatus("this is notice", SVProgressHUD.SVProgressHUDMaskType.Clear);
     }
 
     @Override

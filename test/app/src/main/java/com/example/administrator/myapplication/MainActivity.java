@@ -10,7 +10,7 @@ import com.example.administrator.myapplication.mvvm.utils.ScreenUtils;
 import com.example.administrator.myapplication.mvvm.widget.AutoNewLineLayout;
 import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
 import com.example.administrator.myapplication.mvvm.widget.base.BaseFreeLocationPopupWindow;
-import com.example.administrator.myapplication.testlist.ListActivity;
+import com.example.administrator.myapplication.testlist.recyclerview.RecyclerListActivity;
 
 import java.io.IOException;
 
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements TopTitleView.TopClickL
                 startActivity(new Intent(this, Main2Activity.class));
                 break;
             case 1:
-                ListActivity.launch(this);
+                RecyclerListActivity.launch(this);
                 break;
             default:
                 TestActivity.launch(this);

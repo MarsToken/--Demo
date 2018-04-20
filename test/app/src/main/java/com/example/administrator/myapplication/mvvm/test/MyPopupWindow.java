@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.mvvm.utils.ScreenUtils;
 import com.example.administrator.myapplication.mvvm.widget.base.BasePopupWindow;
 
 import java.util.List;
@@ -30,14 +31,12 @@ public class MyPopupWindow extends BasePopupWindow<String> {
             @Override
             public void run() {
                 int height = view.getHeight();
-                ValueAnimator animator = ObjectAnimator.
-                        ofFloat(view, "translationY", height, 0);
+                ValueAnimator animator = ObjectAnimator
+                        .ofFloat(view, "translationY", height, -ScreenUtils.getNavBarHeight(view.getContext()));
                 animator.setDuration(200).start();
             }
         });
     }
-    //sdfsd
-    //int height = view.getHeight();
 
     @Override
     protected int getContentViewId() {

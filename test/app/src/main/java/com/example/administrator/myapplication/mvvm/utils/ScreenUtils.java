@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.mvvm.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 /**
  * Created by Administrator on 2018/4/19.
@@ -23,6 +24,22 @@ public class ScreenUtils {
             e.printStackTrace();
         }
         return statusHeight;
+    }
+    public int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+    public static int getNavBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 
     public static int getScreenHeight(Context context) {

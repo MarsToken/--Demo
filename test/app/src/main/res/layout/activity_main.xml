@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +14,7 @@
         android:id="@+id/iv_pop"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_below="@id/title"
+        android:layout_below="@id/ui_common_title"
         android:onClick="onViewClicked"
         android:src="@drawable/shape_changed_color"
         />
@@ -33,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="测试框架"
+            android:textAllCaps="false"
             />
 
         <Button
@@ -40,16 +42,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="测试recyclerView"
+            android:textAllCaps="false"
             />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测试recyclerView"
+            android:text="测试ExpandableListView"
+            android:textAllCaps="false"
             />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测试recyclerView"
+            android:text="测试"
+            android:textAllCaps="false"
             />
     </com.example.administrator.myapplication.mvvm.widget.AutoNewLineLayout>
 </RelativeLayout>
