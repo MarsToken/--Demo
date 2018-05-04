@@ -3,6 +3,7 @@ package com.example.administrator.myapplication.mvvm.test;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 
 import com.example.administrator.myapplication.R;
@@ -27,12 +28,19 @@ public class MyPopupWindow extends BasePopupWindow<String> {
 
     @Override
     protected void setAnimation(final View view) {
+        final int final_location;
+        if (view.getContext().getApplicationInfo().targetSdkVersion
+                < Build.VERSION_CODES.LOLLIPOP_MR1) {
+            final_location = -ScreenUtils.getNavBarHeight(view.getContext());
+        } else {
+            final_location = 0;
+        }
         view.post(new Runnable() {
             @Override
             public void run() {
                 int height = view.getHeight();
                 ValueAnimator animator = ObjectAnimator
-                        .ofFloat(view, "translationY", height, -ScreenUtils.getNavBarHeight(view.getContext()));
+                        .ofFloat(view, "translationY", height,final_location );
                 animator.setDuration(200).start();
             }
         });

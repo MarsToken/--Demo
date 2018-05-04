@@ -43,4 +43,6 @@ dependencies {
     /*添加头部的Recyclerview*/
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
     compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
+    /**ratingbar*/
+    compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
 }

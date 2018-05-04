@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
+import com.example.administrator.myapplication.mvvm.utils.ScreenUtils;
+
 import java.util.List;
 
 /**
@@ -30,13 +32,11 @@ public abstract class BasePopupWindow<T> extends PopupWindow {
     }
 
     private void initView(Context context) {
-        mPopupLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(getLayoutId(), null);
+        mPopupLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(getLayoutId(), null);
         setContentView(mPopupLayout);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         setFocusable(true);
-        //setAnimationStyle(R.style.popup_vertical);
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         setBackgroundDrawable(dw);
         mPopupLayout.setOnTouchListener(new View.OnTouchListener() {

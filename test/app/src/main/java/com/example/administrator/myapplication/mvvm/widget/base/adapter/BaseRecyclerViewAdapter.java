@@ -90,7 +90,6 @@ public abstract class BaseRecyclerViewAdapter<T>
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final SparseArray<View> mViews;
         private View itemView;
-        private int mPosition;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -102,6 +101,7 @@ public abstract class BaseRecyclerViewAdapter<T>
                     onItemClick(getAdapterPosition());
                 }
             });
+            setTextChangedListener(this,itemView);
         }
 
         public <T extends View> T getView(int viewId) {
@@ -199,6 +199,14 @@ public abstract class BaseRecyclerViewAdapter<T>
      * @param position
      */
     protected void onItemClick(int position) {
+
+    }
+    /**
+     * 为edittext添加文本监听(如果需要，重写此方法就行)
+     * @param viewHolder
+     * @param itemView
+     */
+    protected void setTextChangedListener(ViewHolder viewHolder, View itemView){
 
     }
 

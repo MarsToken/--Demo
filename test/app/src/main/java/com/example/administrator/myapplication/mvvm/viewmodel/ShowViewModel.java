@@ -82,21 +82,21 @@ public class ShowViewModel extends BaseViewModel implements IDealDataListener {
     private void getRecycleViewData() {
         data_Array.clear();
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
-                ("北京博锐尚格节能技术有限公司").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
+                ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")
                 .set_Is_Select(true).set_Parameter("我是图片，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")
                 .set_Is_Select(true).set_Parameter("我是图片，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
-                ("北京博锐尚格节能技术有限公司").set_Is_Select(false));
+                ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx").set_Is_Select(false));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")
                 .set_Is_Select(true).set_Parameter("我是图片，需要跳转吗？"));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
-                ("北京博锐尚格节能技术有限公司").set_Is_Select(false));
+                ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx").set_Is_Select(false));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type2").set_Cell_Value("")
                 .set_Is_Select(false).set_Parameter(""));
         data_Array.add(new Universal_Cell_Class().set_Cell_Type("cell_type1").set_Cell_Value
-                ("北京博锐尚格节能技术有限公司").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
+                ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx").set_Is_Select(true).set_Parameter("我是文本，需要跳转吗？"));
     }
 
     private void getListViewData() {

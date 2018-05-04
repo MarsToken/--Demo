@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.example.administrator.myapplication.BaseActivity;
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.mvvm.bean.Universal_Cell_Class;
 import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class RecyclerListActivity extends BaseActivity implements TopTitleView.T
     RecyclerViewHeader ui_RvHeader;
 
     private CommentRVAdapter mAdapter_Comment;
-    private ArrayList<CommentBean> mList_Comment = new ArrayList<>();
+    private ArrayList<Universal_Cell_Class> mList_Comment = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +50,37 @@ public class RecyclerListActivity extends BaseActivity implements TopTitleView.T
     }
 
     private void initData() {
-        mList_Comment.add(new CommentBean("鲁班七号"));
-        mList_Comment.add(new CommentBean("兰陵王"));
-        mList_Comment.add(new CommentBean("阿珂"));
-        mList_Comment.add(new CommentBean("嬴政"));
-        mList_Comment.add(new CommentBean("黄忠"));
-        mList_Comment.add(new CommentBean("刘备"));
-        mList_Comment.add(new CommentBean("甄姬"));
+//        mList_Comment.add(new CommentBean("鲁班七号"));
+//        mList_Comment.add(new CommentBean("兰陵王"));
+//        mList_Comment.add(new CommentBean("阿珂"));
+//        mList_Comment.add(new CommentBean("嬴政"));
+//        mList_Comment.add(new CommentBean("黄忠"));
+//        mList_Comment.add(new CommentBean("刘备"));
+//        mList_Comment.add(new CommentBean("甄姬"));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("鲁班")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE2)
+                .set_Cell_Value(new CommentBean("亚瑟")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("阿珂")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("嬴政")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE2)
+                .set_Cell_Value(new CommentBean("黄忠")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("刘备")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("安其拉")));
+        mList_Comment.add(new Universal_Cell_Class()
+                .set_Cell_Type(Universal_Cell_Class.TYPE1)
+                .set_Cell_Value(new CommentBean("妲己")));
     }
 
     public static void launch(Activity activity) {

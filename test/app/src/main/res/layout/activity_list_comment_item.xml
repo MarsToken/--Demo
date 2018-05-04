@@ -86,31 +86,6 @@
             />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_comment_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_below="@+id/rl_score"
-        android:layout_toRightOf="@id/rl_name"
-        android:visibility="gone"
-        >
-
-        <TextView
-            android:id="@+id/tv_comment1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="评价:"
-            android:textSize="15sp"
-            />
-
-        <TextView
-            android:id="@+id/ui_tv_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/rl_commit"
         android:layout_width="wrap_content"
