@@ -1,6 +1,5 @@
 package com.example.administrator.myapplication;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,9 +13,6 @@ import android.widget.RatingBar;
 
 import com.example.administrator.myapplication.mvvm.controller.ShowFragment;
 import com.example.administrator.myapplication.mvvm.widget.RichTextView;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,7 +43,7 @@ public class TestActivity extends AppCompatActivity implements ShowFragment.OnFr
                 ratingBar.setRating(rating);
             }
         });
-
+        Log.e("tag", "22小时后结束".split("小")[0]);
     }
 
     private void testRichText() {
@@ -67,14 +63,23 @@ public class TestActivity extends AppCompatActivity implements ShowFragment.OnFr
     public void onFragmentInteraction(Uri uri) {
 
     }
+    @OnClick({R.id.tv_popSoftInput, R.id.btn_ui_smooth})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_popSoftInput:
+                Log.e("tag", "click!");
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                break;
+            case R.id.btn_ui_smooth:
 
-    @SuppressLint("WrongViewCast")
-    @OnClick(R.id.tv_popSoftInput)
-    public void onViewClicked() {
-        Log.e("tag", "click!");
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
+                try {
+                    Thread.sleep(20);
+                    Thread.sleep(980);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
     }
-
 }

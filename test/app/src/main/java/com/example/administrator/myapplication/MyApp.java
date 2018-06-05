@@ -1,6 +1,9 @@
 package com.example.administrator.myapplication;
 
 import android.app.Application;
+import android.os.Build;
+
+import com.example.administrator.myapplication.mvvm.utils.smoothuiutlis.CheckUISmoothUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +23,10 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //检测ui是否卡顿-阀值自定义
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            CheckUISmoothUtil.check_chore();
+        }
     }
 
     public Retrofit getRetrofitInstance() {
