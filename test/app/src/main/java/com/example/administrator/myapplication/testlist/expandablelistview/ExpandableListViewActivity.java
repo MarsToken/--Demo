@@ -36,6 +36,9 @@ public class ExpandableListViewActivity extends BaseActivity
         earlyInit();
         getData();
         lateInit();
+        int a=9;
+        int b=100;
+        System.out.println(a + "+" + b + "=" + a + b);
     }
 
     private void lateInit() {
@@ -69,11 +72,15 @@ public class ExpandableListViewActivity extends BaseActivity
         ui_ExList.setAdapter(mAdapter);
         ui_ExList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition,
-                                        long id) {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 //Toast.makeText(ExpandableListViewActivity.this, mGroupBeans.get(groupPosition).name, Toast.LENGTH_SHORT).show();
-                getData();
-                mAdapter.notifyDataSetChanged();
+                if (!parent.isGroupExpanded(groupPosition)) {
+                    parent.expandGroup(groupPosition);
+                    getData();
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    parent.collapseGroup(groupPosition);
+                }
                 return true;
             }
         });

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--如果没有指定对应的数据共享地址 会导致：java.lang.IllegalArgumentException: Failed to find configured root that contains /storage/emulated/0/images/....-->
+<paths>
+    <external-path path="Android/data/com.example.administrator.myapplication/" name="files_root" />
+    <external-path path="." name="external_storage_root" />
+</paths>

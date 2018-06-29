@@ -3,6 +3,8 @@
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApp"
@@ -28,6 +30,22 @@
         <activity android:name=".testlist.recyclerview.RecyclerListActivity">
         </activity>
         <activity android:name=".testlist.expandablelistview.ExpandableListViewActivity">
+        </activity>
+        <activity android:name=".testDemo.FileProvideActivity">
+        </activity>
+        <!-- contentProvider 可以自定义name对应为自定义的 -->
+        <!-- authorities 对应 FileProvider.getUriForFile 的参数2 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.administrator.myapplication.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+        <activity android:name=".testDemo.download.DownLoadActivity">
         </activity>
     </application>
 

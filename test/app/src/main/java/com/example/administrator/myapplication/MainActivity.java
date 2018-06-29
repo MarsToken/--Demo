@@ -10,6 +10,8 @@ import com.example.administrator.myapplication.mvvm.utils.ScreenUtils;
 import com.example.administrator.myapplication.mvvm.widget.AutoNewLineLayout;
 import com.example.administrator.myapplication.mvvm.widget.TopTitleView;
 import com.example.administrator.myapplication.mvvm.widget.base.BaseFreeLocationPopupWindow;
+import com.example.administrator.myapplication.testDemo.download.DownLoadActivity;
+import com.example.administrator.myapplication.testDemo.FileProvideActivity;
 import com.example.administrator.myapplication.testlist.expandablelistview.ExpandableListViewActivity;
 import com.example.administrator.myapplication.testlist.recyclerview.RecyclerListActivity;
 
@@ -36,7 +38,7 @@ public class MainActivity extends BaseActivity implements TopTitleView.TopClickL
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mFlowLayout.setItemClickListener(this);
-        Log.e("tag", "abcdeffffa".lastIndexOf("fa")+"result");
+        Log.e("tag", "abcdeffffa".lastIndexOf("fa") + "result");
     }
 
     @Override
@@ -114,6 +116,12 @@ public class MainActivity extends BaseActivity implements TopTitleView.TopClickL
                 break;
             case 2:
                 ExpandableListViewActivity.launch(this);
+                break;
+            case 4:
+                FileProvideActivity.launch(this);
+                break;
+            case 5:
+                DownLoadActivity.launch(this);
                 break;
             default:
                 TestActivity.launch(this);

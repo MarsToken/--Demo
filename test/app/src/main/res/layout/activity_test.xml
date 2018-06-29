@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         />
+
     <RatingBar
         android:id="@+id/ratingBar"
+        style="@style/MarkRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
         android:isIndicator="false"
-        style="@style/MarkRatingBar"
         android:numStars="5"
         />
 
@@ -37,6 +38,7 @@
         android:layout_below="@id/ratingBar2"
         android:text="测试弹出软键盘"
         />
+
     <Button
         android:id="@+id/btn_ui_smooth"
         android:layout_width="wrap_content"
@@ -44,4 +46,33 @@
         android:layout_below="@id/tv_popSoftInput"
         android:text="测试UI卡顿"
         />
+
+    <LinearLayout
+        android:id="@+id/orderTypeNameLabel_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/test"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/orderTypeNameLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="状态名称"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/orderTypeNameLabel1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="状态名称"
+        android:textSize="20dp"/>
 </RelativeLayout>

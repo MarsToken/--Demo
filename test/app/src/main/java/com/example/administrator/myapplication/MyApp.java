@@ -16,9 +16,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Administrator on 2018/3/28.
  */
 public class MyApp extends Application {
-    private static Retrofit retrofitInstance;
+    public static Retrofit retrofitInstance;
     //private static final String BASEURL = "http://140.143.138.233:8080/WebContent/";
-    private static final String BASEURL = "http://news.baidu.com/";
+    //private static final String BASEURL = "http://news.baidu.com/";
+    private static final String BASEURL = "https://codeload.github.com/Tamicer/RetrofitClient/zip/master";
 
     @Override
     public void onCreate() {
