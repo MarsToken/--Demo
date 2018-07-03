@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class SDCardHelper {
 
@@ -92,8 +93,7 @@ public class SDCardHelper {
     }
 
     // 往SD卡的自定义目录下保存文件
-    public static boolean saveFileToSDCardCustomDir(byte[] data, String dir,
-                                                    String fileName) {
+    public static boolean saveFileToSDCardCustomDir(byte[] data, String dir, String fileName) {
         BufferedOutputStream bos = null;
         if (isSDCardMounted()) {
             File file = new File(getSDCardBaseDir() + File.separator + dir);
@@ -102,6 +102,30 @@ public class SDCardHelper {
             }
             try {
                 bos = new BufferedOutputStream(new FileOutputStream(new File(file, fileName)));
+                bos.write(data);
+                bos.flush();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (null != bos) {
+                        bos.close();
+                    }
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean saveFileToSDCardCustomDir(byte[] data, OutputStream os) {
+        BufferedOutputStream bos = null;
+        if (isSDCardMounted()) {
+            try {
+                bos = new BufferedOutputStream(os);
                 bos.write(data);
                 bos.flush();
                 return true;
@@ -122,6 +146,23 @@ public class SDCardHelper {
     public static File getFile(String dir, String fileName) {
         if (isSDCardMounted()) {
             File file = new File(getSDCardBaseDir() + File.separator + dir, fileName);
+            return file;
+        }
+        return null;
+    }
+
+    /**
+     * 共有sd卡下创建目录
+     *
+     * @param dir
+     * @return
+     */
+    public static File createFileDir(String dir) {
+        if (isSDCardMounted()) {
+            File file = new File(getSDCardBaseDir() + File.separator + dir);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
             return file;
         }
         return null;

@@ -11,8 +11,8 @@ import okhttp3.OkHttpClient;
  * Created by wangmaobo on 2018/6/28.
  */
 public class ProgressHelper {
-    private static ProgressBean progressBean = new ProgressBean();
     private static ProgressHandler mProgressHandler;
+    private static ProgressBean progressBean = new ProgressBean();
 
     public static OkHttpClient.Builder addProgress(OkHttpClient.Builder builder) {
 
@@ -28,12 +28,18 @@ public class ProgressHelper {
                 if (mProgressHandler == null) {
                     return;
                 }
-
                 progressBean.setBytesRead(progress);
                 progressBean.setContentLength(total);
                 progressBean.setDone(done);
+                progressBean.setError(false);
                 mProgressHandler.sendMessage(progressBean);
 
+            }
+
+            @Override
+            public void onError(boolean isError) {
+                progressBean.setError(isError);
+                mProgressHandler.sendMessage(progressBean);
             }
         };
 

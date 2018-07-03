@@ -25,10 +25,6 @@ public class DownLoadResponseBody extends ResponseBody {
         mResponseBody = responseBody;
     }
 
-    public void setProgressListener(ProgressListener listener) {
-        mProgressListener = listener;
-    }
-
     @Nullable
     @Override
     public MediaType contentType() {
@@ -53,11 +49,19 @@ public class DownLoadResponseBody extends ResponseBody {
             long totalBytes = 0;
 
             @Override
-            public long read(Buffer sink, long byteCount) throws IOException {
-                long eachBytes = super.read(sink, byteCount);//可能会报超时异常
-                totalBytes += eachBytes != -1 ? eachBytes : 0;
-                mProgressListener.onProgress(totalBytes, mResponseBody.contentLength(), eachBytes == -1);
-                return eachBytes;
+            public long read(Buffer sink, long byteCount) {
+                // TODO: 2018/7/2 可能会报超时异常，需要异常捕捉下
+                long eachBytes = 0;
+                try {
+                    eachBytes = super.read(sink, byteCount);
+                    totalBytes += eachBytes != -1 ? eachBytes : 0;
+                    mProgressListener.onProgress(totalBytes, mResponseBody.contentLength(), eachBytes == -1);
+                    return eachBytes;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mProgressListener.onError(true);
+                }
+                return -1;
             }
         };
     }

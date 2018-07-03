@@ -10,4 +10,6 @@ public interface ProgressListener {
      * @param isFinished
      */
     void onProgress(long progress, long total, boolean isFinished);
+
+    void onError(boolean isError);
 }

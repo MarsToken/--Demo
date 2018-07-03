@@ -7,6 +7,7 @@ public class ProgressBean {
     private long bytesRead;
     private long contentLength;
     private boolean done;
+    private boolean isError;
 
     public long getBytesRead() {
         return bytesRead;
@@ -30,5 +31,13 @@ public class ProgressBean {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean isError) {
+        this.isError = isError;
     }
 }
