@@ -15,16 +15,14 @@ public class ProgressHelper {
     private static ProgressBean progressBean = new ProgressBean();
 
     public static OkHttpClient.Builder addProgress(OkHttpClient.Builder builder) {
-
         if (builder == null) {
             builder = new OkHttpClient.Builder();
         }
-
         final ProgressListener progressListener = new ProgressListener() {
             //该方法在子线程中运行
             @Override
             public void onProgress(long progress, long total, boolean done) {
-                Log.e("helper:progress:", String.format("%d%% done\n", (100 * progress) / total));
+                //Log.e("helper:progress:", String.format("%d%% done\n", (100 * progress) / total));
                 if (mProgressHandler == null) {
                     return;
                 }

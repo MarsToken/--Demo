@@ -47,6 +47,8 @@
 
         <activity android:name=".testDemo.download.DownLoadActivity">
         </activity>
+        <activity android:name=".testDemo.download.DownLoadActivity2">
+        </activity>
     </application>
 
 </manifest>

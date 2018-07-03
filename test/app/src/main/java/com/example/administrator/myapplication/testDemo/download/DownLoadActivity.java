@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
@@ -23,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,14 +35,23 @@ public class DownLoadActivity extends BaseActivity {
     private static String url = "http://msoftdl.360.cn";
     private String key_url = "/mobilesafe/shouji360/360safesis/360MobileSafe_6.2.3.1060.apk";
     //    private static String url = "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/";
-//    private String key_url = "timg?image&quality=100&size=b4000_4000&sec=1530522035&di=0915dfd1b3572a778b20e811a00f4faa&src=http://imgsrc.baidu" +
-//            ".com/imgad/pic/item/bf096b63f6246b60553a62a0e1f81a4c510fa22a.jpg";
+    //    private String key_url = "timg?image&quality=100&size=b4000_4000&sec=1530522035&di=0915dfd1b3572a778b20e811a00f4faa&src=http://imgsrc
+    // .baidu" +
+    //            ".com/imgad/pic/item/bf096b63f6246b60553a62a0e1f81a4c510fa22a.jpg";
     private int progress;
+    private ProgressBar progressBar;
+    private Call<ResponseBody> call;
+    /**
+     * 断点-已下载-总长度
+     */
+    private long breakPoints, totalBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down);
+        progressBar = findViewById(R.id.progressBar);
+        initRetrofit();
     }
 
     public static void launch(Activity activity) {
@@ -55,10 +64,18 @@ public class DownLoadActivity extends BaseActivity {
                 //File file = new File("aaa", getFileName(key_url));
                 File file = SDCardHelper.getFile("aaa", getFileName(key_url));
                 if (!file.exists()) {
-                    testDownLoad();
+                    breakPoints = 0;
+                    testDownLoad(0);
                 } else {
                     Toast.makeText(this, "文件已存在", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.btn_pause:
+                call.cancel();
+                breakPoints = totalBytes;
+                break;
+            case R.id.btn_reStart:
+                testDownLoad(breakPoints);
                 break;
             case R.id.btn_open:
                 testOpenAttachments();
@@ -71,47 +88,50 @@ public class DownLoadActivity extends BaseActivity {
         new OpenAttachmentsUtils().openFile(this, SDCardHelper.getFile("aaa", getFileName(key_url)));
     }
 
-    private void testDownLoad() {
-        mProgressHUD.getProgressBar().setProgress(0);
-        mProgressHUD.showWithProgress("进度" + progress + "%", SVProgressHUD.SVProgressHUDMaskType.Black);
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(url);
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder builder = ProgressHelper.addProgress(null)
-                .addInterceptor(interceptor)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS);
-        DownloadApi downloadApi = retrofitBuilder.client(builder.build()).build().create(DownloadApi.class);
+    private void testDownLoad(long startsPoint) {
+        Log.e("tag", "startsPoint=" + startsPoint);
+        //mProgressHUD.getProgressBar().setProgress(0);
+        //mProgressHUD.showWithProgress("进度" + progress + "%", SVProgressHUD.SVProgressHUDMaskType.Black);
+        DownloadApi downloadApi = mRetrofit.create(DownloadApi.class);
         ProgressHelper.setProgressHandler(new DownloadProgressHandler() {
             @Override
             protected void onProgress(long bytesRead, long contentLength, boolean done, boolean isError) {
-                //Log.e("是否在主线程中运行", String.valueOf(Looper.getMainLooper() == Looper.myLooper()));
-                String result = String.format("进度:%d%%", (100 * bytesRead) / contentLength);
-                Log.e("onProgress", result);
-                //Log.e("done", "--->" + String.valueOf(done));
+
+                //String result = String.format("进度:%d%%", (100 * bytesRead) / contentLength);
+                //Log.e("onProgress", result);
                 progress = (int) (100 * bytesRead / contentLength);
-                mProgressHUD.getProgressBar().setProgress(progress);
-                mProgressHUD.setText(result);
+                //mProgressHUD.getProgressBar().setProgress(progress);
+                //mProgressHUD.setText(result);
+                if (progressBar.getMax() == 100) {
+                    Log.e("tag", "progressBar init progress!");
+                    progressBar.setMax((int) (contentLength / 1024));
+                }
+                progressBar.setProgress((int) (bytesRead + breakPoints) / 1024);
                 if (done) {
                     progress = 0;
-                    mProgressHUD.dismiss();
+                    //mProgressHUD.dismiss();
                 }
                 if (isError) {
-                    progress = 0;
-                    mProgressHUD.dismiss();
-                    Toast.makeText(DownLoadActivity.this, "下载失败！", Toast.LENGTH_SHORT).show();
+                    if (done) {
+                        progress = 0;
+                        //mProgressHUD.dismiss();
+                        Toast.makeText(DownLoadActivity.this, "下载失败！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // 注意加上断点的长度
+                        totalBytes = bytesRead + breakPoints;
+                        Toast.makeText(DownLoadActivity.this, "暂停下载！", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
-        Call<ResponseBody> call = downloadApi.retrofitDownload(key_url);
+        call = downloadApi.retrofitDownload("bytes=" + startsPoint + "-", key_url);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     byte[] data = response.body().bytes();
+                    //TODO: 2018/7/2 需要和后台沟通
+                    Log.e("tag", response.body().contentType().toString());
                     SDCardHelper.saveFileToSDCardCustomDir(data, "aaa", getFileName(key_url));
                     Toast.makeText(DownLoadActivity.this, "下载成功！", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
@@ -124,6 +144,7 @@ public class DownLoadActivity extends BaseActivity {
                 t.printStackTrace();
             }
         });
+
     }
 
     private String getFileName(String pre) {
@@ -137,5 +158,18 @@ public class DownLoadActivity extends BaseActivity {
         String result = CommonUtils._MD5(changedUrl) + "." + changedUrl.split("\\.")[changedUrl.split("\\.").length - 1];
         Log.e("tag", result);
         return result;
+    }
+
+    private Retrofit mRetrofit;
+
+    private void initRetrofit() {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(url);
+        OkHttpClient.Builder builder = ProgressHelper.addProgress(null)//已添加拦截器
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS);
+        mRetrofit = retrofitBuilder.client(builder.build()).build();
     }
 }
