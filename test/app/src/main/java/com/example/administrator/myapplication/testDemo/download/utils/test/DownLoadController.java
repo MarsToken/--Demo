@@ -1,5 +1,7 @@
 package com.example.administrator.myapplication.testDemo.download.utils.test;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +71,7 @@ public class DownLoadController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.e("tag", "save!!!");
                 save(response, startsPoint);
             }
         });

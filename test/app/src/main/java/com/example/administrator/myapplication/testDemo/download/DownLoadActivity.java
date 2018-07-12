@@ -19,7 +19,7 @@ import com.example.administrator.myapplication.testDemo.download.utils.OpenAttac
 import com.example.administrator.myapplication.testDemo.download.utils.ProgressHelper;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -41,6 +41,7 @@ public class DownLoadActivity extends BaseActivity {
     private int progress;
     private ProgressBar progressBar;
     private Call<ResponseBody> call;
+    private boolean isFinished = false;
     /**
      * 断点-已下载-总长度
      */
@@ -64,21 +65,30 @@ public class DownLoadActivity extends BaseActivity {
                 //File file = new File("aaa", getFileName(key_url));
                 File file = SDCardHelper.getFile("aaa", getFileName(key_url));
                 if (!file.exists()) {
-                    breakPoints = 0;
-                    testDownLoad(0);
+                    if (null == call || call.isCanceled()) {
+                        breakPoints = 0;
+                        testDownLoad(0);
+                    }
                 } else {
-                    Toast.makeText(this, "文件已存在", Toast.LENGTH_SHORT).show();
+                    if (isFinished) {//可以新建个文件，在里面做个finished记录，如果下载完了，同步此标记
+                        Toast.makeText(this, "附件已下载完毕，请直接打开", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.btn_pause:
-                call.cancel();
-                breakPoints = totalBytes;
+                if (null != call && call.isExecuted()) {
+                    call.cancel();
+                }
                 break;
             case R.id.btn_reStart:
-                testDownLoad(breakPoints);
+                if (null != call && call.isCanceled()) {
+                    testDownLoad(breakPoints);
+                }
                 break;
             case R.id.btn_open:
-                testOpenAttachments();
+                if (isFinished) {
+                    testOpenAttachments();
+                }
                 break;
         }
     }
@@ -110,15 +120,20 @@ public class DownLoadActivity extends BaseActivity {
                 if (done) {
                     progress = 0;
                     //mProgressHUD.dismiss();
+                    isFinished = true;
+                    Toast.makeText(DownLoadActivity.this, "下载成功！", Toast.LENGTH_SHORT).show();
                 }
                 if (isError) {
+                    Log.e("tag", "isError=true");
                     if (done) {
                         progress = 0;
                         //mProgressHUD.dismiss();
                         Toast.makeText(DownLoadActivity.this, "下载失败！", Toast.LENGTH_SHORT).show();
                     } else {
-                        // 注意加上断点的长度
+                        // 注意加上断点的长度-可能会导致调用多次，累加多次
                         totalBytes = bytesRead + breakPoints;
+                        breakPoints = totalBytes;
+                        Log.e("tag=暂停", "breakPoints=" + breakPoints);
                         Toast.makeText(DownLoadActivity.this, "暂停下载！", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -128,15 +143,12 @@ public class DownLoadActivity extends BaseActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    byte[] data = response.body().bytes();
+                Log.e("tag", response.body().contentType().toString());
+                new Thread(() -> {
+                    InputStream is = response.body().byteStream();
                     //TODO: 2018/7/2 需要和后台沟通
-                    Log.e("tag", response.body().contentType().toString());
-                    SDCardHelper.saveFileToSDCardCustomDir(data, "aaa", getFileName(key_url));
-                    Toast.makeText(DownLoadActivity.this, "下载成功！", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    SDCardHelper.saveFileToSDCardCustomDir(is, "aaa", getFileName(key_url), startsPoint, response.body().contentLength());
+                }).start();
             }
 
             @Override

@@ -79,5 +79,12 @@
             android:text="断点下载"
             android:textAllCaps="false"
             />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="highCharts"
+            android:textAllCaps="false"
+            />
     </com.example.administrator.myapplication.mvvm.widget.AutoNewLineLayout>
 </RelativeLayout>

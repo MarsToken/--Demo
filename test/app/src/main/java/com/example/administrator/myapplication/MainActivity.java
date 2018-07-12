@@ -13,6 +13,7 @@ import com.example.administrator.myapplication.mvvm.widget.base.BaseFreeLocation
 import com.example.administrator.myapplication.testDemo.download.DownLoadActivity;
 import com.example.administrator.myapplication.testDemo.FileProvideActivity;
 import com.example.administrator.myapplication.testDemo.download.DownLoadActivity2;
+import com.example.administrator.myapplication.testDemo.highcharts.HighChartsActivity;
 import com.example.administrator.myapplication.testlist.expandablelistview.ExpandableListViewActivity;
 import com.example.administrator.myapplication.testlist.recyclerview.RecyclerListActivity;
 
@@ -126,6 +127,9 @@ public class MainActivity extends BaseActivity implements TopTitleView.TopClickL
                 break;
             case 6:
                 DownLoadActivity2.launch(this);
+                break;
+            case 7:
+                HighChartsActivity.launch(this);
                 break;
             default:
                 TestActivity.launch(this);
